@@ -1,0 +1,25 @@
+function createFolders_Planilha() {
+  // ID da planilha e da aba onde estão os dados
+  var spreadsheetId = 'ID_PASTA'; // Substitua pelo ID da sua planilha
+  var sheetName = 'Apoio_Pastas'; // Substitua nome da Aba na Planilha
+  
+  // Obter a planilha e a aba
+  var sheet = SpreadsheetApp.openById(spreadsheetId).getSheetByName(sheetName);
+  
+  // Obter o ID da pasta principal a partir da célula C3
+  var mainFolderId = sheet.getRange('C3').getValue();
+  
+  // Obter a pasta principal
+  var mainFolder = DriveApp.getFolderById(mainFolderId);
+  
+  // Obter os nomes das pastas a partir da célula B7 em diante
+  var folderNames = sheet.getRange('B7:B').getValues().flat().filter(String);
+  
+  // Loop para criar as pastas com os nomes obtidos
+  for (var i = 0; i < folderNames.length; i++) {
+    var folderName = folderNames[i];
+    mainFolder.createFolder(folderName);
+  }
+  
+  Logger.log('Pastas criadas com sucesso! Corre lá para ver (:'); // Personalize a Mensagem
+}
