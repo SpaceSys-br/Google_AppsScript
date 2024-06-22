@@ -1,0 +1,40 @@
+// Funciona em Quebra
+
+function enviarEmailsPersonalizados() {
+  var planilha = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var dados = planilha.getRange("A2:D" + planilha.getLastRow()).getValues();
+  
+  var docUrl = "https://docs.google.com/document/d/18smqjZzZNn6QpMXl8D1ZNi4-MS7y_sXAbCQ1zt56VmY/edit?usp=drive_link"; // Link do documento do Google Docs
+  
+  var conteudo = DocumentApp.openByUrl(docUrl).getBody().getText();
+  
+  for (var i = 0; i < dados.length; i++) {
+    var nome = "<b>" + dados[i][0] + "</b>";
+    var email = dados[i][1];
+    var data = new Date(dados[i][2]);
+    var status = dados[i][3];
+    
+    if (status === "Aberto") {
+      var assunto = "Lembrete de Boleto";
+      
+      // Formatar a data como DD/MM/AAAA
+      var dataFormatada = ("0" + data.getDate()).slice(-2) + "/" + ("0" + (data.getMonth() + 1)).slice(-2) + "/" + data.getFullYear();
+      
+      // Substituir os marcadores de posição pelos valores correspondentes
+      var mensagem = conteudo.replace("[NOME]", nome).replace("[DATA]", dataFormatada);
+      
+      // Log do e-mail antes de enviar
+      Logger.log("Enviando e-mail para: " + email + " - Assunto: " + assunto);
+      
+      // Envie o e-mail
+      MailApp.sendEmail({
+        to: email,
+        subject: assunto,
+        htmlBody: mensagem
+      });
+      
+      // Log após enviar
+      Logger.log("E-mail enviado para: " + email);
+    }
+  }
+}
