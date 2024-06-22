@@ -22,4 +22,6 @@ function createFolders_Planilha() {
   }
   
   Logger.log('Pastas criadas com sucesso! Corre lá para ver (:'); // Personalize a Mensagem
+
+  // Link da pasta: https://docs.google.com/spreadsheets/d/1cM8kptFD4k9nqNrhwrNwTc2gcQSfHQouGEPk4MUrVU0/edit?gid=0#gid=0
 }
